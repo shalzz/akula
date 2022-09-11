@@ -569,11 +569,11 @@ where
 
         let db = self.db.clone();
 
-        let (trace_tx, trace_rx) = tokio::sync::mpsc::channel(1);
+        let (res_tx, rx) = tokio::sync::mpsc::channel(1);
 
         tokio::task::spawn_blocking(move || {
             let f = {
-                let trace_tx = trace_tx.clone();
+                let res_tx = res_tx.clone();
                 move || {
                     let txn = db.begin()?;
 
@@ -702,7 +702,7 @@ where
 
                             false
                         }) {
-                            if trace_tx.blocking_send(Ok(trace)).is_err() {
+                            if res_tx.blocking_send(Ok(trace)).is_err() {
                                 return Ok(());
                             };
                         }
@@ -712,11 +712,11 @@ where
                 }
             };
             if let Err::<_, anyhow::Error>(e) = (f)() {
-                let _ = trace_tx.blocking_send(Err(e));
+                let _ = res_tx.blocking_send(Err(e));
             }
         });
 
-        tokio_stream::wrappers::ReceiverStream::new(trace_rx)
+        tokio_stream::wrappers::ReceiverStream::new(rx)
     }
 }
 

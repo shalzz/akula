@@ -41,7 +41,7 @@ enum-primitive-derive = "0.2"
 expanded-pathbuf = "0.1"
 ethash = { git = "https://github.com/rust-ethereum/ethash" }
 ethereum-forkid = "0.10"
-ethereum-interfaces = { git = "https://github.com/ledgerwatch/interfaces", features = [
+ethereum-interfaces = { git = "https://github.com/ledgerwatch/interfaces", branch = "vorot93/web3-debug-api", features = [
   "remotekv",
   "sentry",
   "web3",

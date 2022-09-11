@@ -1211,7 +1211,7 @@ dependencies = [
 [[package]]
 name = "ethereum-interfaces"
 version = "0.1.0"
-source = "git+https://github.com/ledgerwatch/interfaces#23c237c9b9a8e27ba0a3445f299fed7783d2797d"
+source = "git+https://github.com/ledgerwatch/interfaces?branch=vorot93/web3-debug-api#e1c190202b2696d892e20519b3aae2d82817994e"
 dependencies = [
  "arrayref",
  "ethereum-types",
