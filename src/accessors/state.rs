@@ -205,13 +205,20 @@ pub mod storage {
 
 pub mod code {
     use super::*;
+    use anyhow::format_err;
     use bytes::Bytes;
 
     pub fn read<K: TransactionKind, E: EnvironmentKind>(
         tx: &MdbxTransaction<'_, K, E>,
         code_hash: H256,
-    ) -> anyhow::Result<Option<Bytes>> {
-        tx.get(tables::Code, code_hash)
+    ) -> anyhow::Result<Bytes> {
+        if code_hash == EMPTY_HASH {
+            Ok(Bytes::new())
+        } else {
+            Ok(tx
+                .get(tables::Code, code_hash)?
+                .ok_or_else(|| format_err!("code expected but not found"))?)
+        }
     }
 }
 

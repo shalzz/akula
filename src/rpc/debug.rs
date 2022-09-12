@@ -86,8 +86,7 @@ where
                                 balance: Some(balance.into()),
                                 nonce,
                                 code: crate::accessors::state::code::read(&tx, code_hash)
-                                    .map_err(|e| tonic::Status::internal(e.to_string()))?
-                                    .unwrap_or_default(),
+                                    .map_err(|e| tonic::Status::internal(e.to_string()))?,
                             }))
                             .is_err()
                         {
